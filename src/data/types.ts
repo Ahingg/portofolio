@@ -61,5 +61,11 @@ export type Project = {
     shots: Shot[];
     /** Small mark shown in the index and on the detail header. */
     logo?: string;
+    /**
+     * The project's own accent, sampled from its app UI. Drives the colour of
+     * its index row and takes over the whole page — console bar included — on
+     * its case study, so a colour change tells you where you are.
+     */
+    accent: string;
     featured: boolean;
 };

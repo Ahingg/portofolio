@@ -32,12 +32,21 @@
 @layer base {
     :root {
         color-scheme: dark;
+
+        /**
+         * The live accent. Defaults to the site's own aqua; a project page
+         * overwrites it on the root element, and an index row overwrites it on
+         * itself. Everything tinted by a project reads this, never a literal.
+         */
+        --accent: var(--color-accent);
+
+        /* Height of the fixed console bar — content clears it by this much. */
+        --console-h: 3.25rem;
     }
 
     html {
         scroll-behavior: smooth;
-        /* Anchored sections clear the mobile top bar. */
-        scroll-padding-top: 5rem;
+        scroll-padding-top: 2rem;
     }
 
     body {
@@ -50,12 +59,12 @@
     }
 
     ::selection {
-        background: var(--color-accent);
+        background: var(--accent);
         color: var(--color-ink);
     }
 
     :focus-visible {
-        outline: 2px solid var(--color-accent);
+        outline: 2px solid var(--accent);
         outline-offset: 3px;
         border-radius: 2px;
     }
@@ -79,7 +88,34 @@
    silently beat `grid` on the same element.
 -------------------------------------------------------------------------- */
 @layer components {
-    /* Small uppercase mono label used for eyebrows and metadata keys. */
+    /* ----------------------------------------------------------------------
+       Layout
+
+       Sections run the full width of the viewport so their backgrounds bleed
+       edge to edge; the readable column lives inside this.
+    ---------------------------------------------------------------------- */
+    .container-page {
+        width: 100%;
+        max-width: 78rem;
+        margin-inline: auto;
+        padding-inline: 1.25rem;
+    }
+
+    @media (min-width: 40rem) {
+        .container-page {
+            padding-inline: 2.5rem;
+        }
+    }
+
+    @media (min-width: 64rem) {
+        .container-page {
+            padding-inline: 4rem;
+        }
+    }
+
+    /* ----------------------------------------------------------------------
+       Type utilities
+    ---------------------------------------------------------------------- */
     .label {
         font-family: var(--font-mono);
         font-size: 0.6875rem;
@@ -94,7 +130,6 @@
         font-variant-numeric: tabular-nums;
     }
 
-    /* Comfortable measure for running prose. */
     .prose-measure {
         max-width: 62ch;
     }
@@ -104,29 +139,120 @@
     }
 
     /* ----------------------------------------------------------------------
-       Ambient hero wash — the one decorative flourish, and it is pure CSS:
-       two slow radial gradients, no JS loop, no canvas.
+       Accent-driven surfaces
+
+       These read `--accent`, so they follow whichever project owns the current
+       scope. The transitions are what make a project page feel like it changed
+       colour rather than simply loaded a different one.
+    ---------------------------------------------------------------------- */
+    .accent-text {
+        color: var(--accent);
+        transition: color 400ms ease;
+    }
+
+    .accent-fill {
+        background-color: var(--accent);
+        transition: background-color 400ms ease;
+    }
+
+    .accent-ring {
+        border-color: color-mix(in oklab, var(--accent) 55%, transparent);
+        transition: border-color 400ms ease;
+    }
+
+    .accent-dot {
+        background-color: var(--accent);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 22%, transparent);
+        transition:
+            background-color 400ms ease,
+            box-shadow 400ms ease;
+    }
+
+    /* ----------------------------------------------------------------------
+       Console bar — fixed navigation strip along the bottom edge
+    ---------------------------------------------------------------------- */
+    .console {
+        position: fixed;
+        inset: auto 0 0 0;
+        z-index: 50;
+        height: var(--console-h);
+        display: flex;
+        align-items: stretch;
+        border-top: 1px solid var(--color-line);
+        background: color-mix(in oklab, var(--color-ink) 88%, transparent);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+    }
+
+    /* Reading position, drawn as a hairline across the top of the bar. */
+    .console-progress {
+        position: absolute;
+        top: -1px;
+        left: 0;
+        height: 1px;
+        background: var(--accent);
+        transition: background-color 400ms ease;
+        transform-origin: left center;
+    }
+
+    .console-cell {
+        display: flex;
+        align-items: center;
+        padding-inline: 1rem;
+        border-right: 1px solid var(--color-line-soft);
+        white-space: nowrap;
+    }
+
+    .console-link {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.5rem;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        letter-spacing: 0.06em;
+        color: var(--color-muted);
+        transition: color 200ms ease;
+    }
+
+    .console-link:hover {
+        color: var(--color-fg);
+    }
+
+    .console-link[data-active="true"] {
+        color: var(--accent);
+    }
+
+    .console-index {
+        font-size: 0.625rem;
+        color: var(--color-faint);
+    }
+
+    .console-link[data-active="true"] .console-index {
+        color: color-mix(in oklab, var(--accent) 70%, transparent);
+    }
+
+    /* ----------------------------------------------------------------------
+       Hero
     ---------------------------------------------------------------------- */
     .hero-wash {
         position: absolute;
-        inset: -20% -10% auto -10%;
-        height: 130%;
+        inset: 0;
         pointer-events: none;
         background:
             radial-gradient(
-                42rem 28rem at 18% 14%,
-                color-mix(in oklab, var(--color-accent) 20%, transparent),
+                50rem 34rem at 12% 8%,
+                color-mix(in oklab, var(--accent) 18%, transparent),
                 transparent 70%
             ),
             radial-gradient(
-                34rem 22rem at 84% 2%,
-                color-mix(in oklab, var(--color-amber) 10%, transparent),
+                40rem 26rem at 88% 92%,
+                color-mix(in oklab, var(--color-amber) 7%, transparent),
                 transparent 70%
             );
+        transition: background 600ms ease;
         animation: wash-drift 26s ease-in-out infinite alternate;
     }
 
-    /* Hairline grid, anchored behind the hero only. */
     .hero-grid {
         position: absolute;
         inset: 0;
@@ -136,9 +262,9 @@
             linear-gradient(90deg, var(--color-line-soft) 1px, transparent 1px);
         background-size: 5.5rem 5.5rem;
         mask-image: radial-gradient(
-            60rem 40rem at 30% 20%,
+            70rem 46rem at 25% 25%,
             #000 0%,
-            transparent 75%
+            transparent 78%
         );
     }
 
@@ -164,7 +290,7 @@
         top: -1px;
         height: 1px;
         width: 0;
-        background: var(--color-accent);
+        background: var(--accent);
         transition: width 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 

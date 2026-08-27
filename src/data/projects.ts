@@ -13,6 +13,7 @@ import type { Project } from "./types";
 export const PROJECTS: Project[] = [
     {
         slug: "chemzy",
+        accent: "#4ED8C8",
         name: "Chemzy",
         tagline:
             "AR molecule builder that derives VSEPR geometry instead of looking it up.",
@@ -116,6 +117,7 @@ export const PROJECTS: Project[] = [
     },
     {
         slug: "taggo",
+        accent: "#5AA0FF",
         name: "Taggo",
         tagline:
             "Hardware-free lost & found for commuters: print a QR, a finder scans it, the owner gets a push.",
@@ -227,6 +229,7 @@ export const PROJECTS: Project[] = [
     },
     {
         slug: "macnpaint",
+        accent: "#D9BA8C",
         name: "macnpaint",
         tagline:
             "A native macOS paint app, built because the good ones are paid and the free ones are unpleasant.",
@@ -308,6 +311,7 @@ export const PROJECTS: Project[] = [
     },
     {
         slug: "neptune",
+        accent: "#4ADE80",
         name: "Neptune",
         tagline:
             "A programming online judge for BINUS, built to replace the one everybody complained about.",
@@ -392,6 +396,7 @@ export const PROJECTS: Project[] = [
     },
     {
         slug: "ergasia",
+        accent: "#A78BFA",
         name: "Ergasia",
         tagline:
             "A decentralised freelance marketplace on the Internet Computer, paid in its own token.",
@@ -482,6 +487,7 @@ export const PROJECTS: Project[] = [
     },
     {
         slug: "starlette",
+        accent: "#F0B84E",
         name: "Starlette",
         tagline:
             "A 2D escape-room puzzle game that teaches programming logic without ever saying so.",

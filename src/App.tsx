@@ -1,12 +1,7 @@
 import { useEffect } from "react";
-import {
-    BrowserRouter,
-    Route,
-    Routes,
-    useLocation,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
-import { Rail } from "./components/Rail";
+import { ConsoleBar } from "./components/ConsoleBar";
 import Home from "./pages/Home";
 import ProjectPage from "./pages/ProjectPage";
 
@@ -40,12 +35,9 @@ function Layout() {
     const reduced = useReducedMotion();
 
     return (
-        <div className="min-h-screen lg:pl-56 xl:pl-64">
-            <Rail />
-            <main
-                id="main"
-                className="mx-auto w-full max-w-[68rem] px-5 sm:px-8 lg:px-14"
-            >
+        // Bottom padding clears the fixed console bar.
+        <div className="min-h-screen pb-[var(--console-h)]">
+            <main id="main">
                 <ScrollManager />
                 {/* Keyed on the path so each route fades in on arrival. No exit
                     animation: holding the old page back would fight the scroll
@@ -66,6 +58,7 @@ function Layout() {
                     </Routes>
                 </motion.div>
             </main>
+            <ConsoleBar />
         </div>
     );
 }
