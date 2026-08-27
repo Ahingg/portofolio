@@ -28,21 +28,11 @@ export function HeroDevices() {
             />
 
             <div className="frame frame-ipad absolute top-[6%] right-0 w-[86%] rotate-[-3deg] shadow-2xl shadow-black/50">
-                <img
-                    src={tablet.src}
-                    alt=""
-                    loading="eager"
-                    decoding="async"
-                />
+                <img src={tablet.src} alt="" loading="eager" decoding="async" />
             </div>
 
             <div className="frame frame-iphone absolute bottom-0 left-0 w-[38%] rotate-[4deg] shadow-2xl shadow-black/60">
-                <img
-                    src={phone.src}
-                    alt=""
-                    loading="eager"
-                    decoding="async"
-                />
+                <img src={phone.src} alt="" loading="eager" decoding="async" />
             </div>
         </div>
     );

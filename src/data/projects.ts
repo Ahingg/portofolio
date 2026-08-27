@@ -516,7 +516,10 @@ export const PROJECTS: Project[] = [
         ],
         stack: [
             { group: "Engine", items: ["Unity", "C#"] },
-            { group: "Backend", items: ["Firebase Authentication", "Firebase"] },
+            {
+                group: "Backend",
+                items: ["Firebase Authentication", "Firebase"],
+            },
             { group: "Design", items: ["Figma", "Canva"] },
         ],
         links: [
@@ -530,8 +533,7 @@ export const PROJECTS: Project[] = [
             {
                 src: "/screenshots/starlette/1.jpg",
                 device: "browser",
-                caption:
-                    "The station — rooms open as their puzzles are solved",
+                caption: "The station — rooms open as their puzzles are solved",
             },
             {
                 src: "/screenshots/starlette/3.jpg",

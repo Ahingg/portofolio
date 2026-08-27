@@ -20,8 +20,8 @@
     --color-accent-dim: #2e7e70;
     --color-amber: #efc05f;
 
-    --font-display: "IBM Plex Sans Condensed", "IBM Plex Sans", system-ui,
-        sans-serif;
+    --font-display:
+        "IBM Plex Sans Condensed", "IBM Plex Sans", system-ui, sans-serif;
     --font-sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
     --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
 }
@@ -162,7 +162,8 @@
 
     .accent-dot {
         background-color: var(--accent);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 22%, transparent);
+        box-shadow: 0 0 0 3px
+            color-mix(in oklab, var(--accent) 22%, transparent);
         transition:
             background-color 400ms ease,
             box-shadow 400ms ease;
@@ -300,6 +301,132 @@
     }
 
     /* ----------------------------------------------------------------------
+       Skyline
+
+       Shinji Hirako's Sakanade turns the world upside down: a whole town hangs
+       overhead with open sky beneath it. The hero shows that inverted town; as
+       you read down the page the same town rights itself along the bottom edge.
+       One idea in two orientations, rather than ornaments placed here and there.
+
+       Everything is CSS — clip-paths and gradients, no image and no SVG path.
+    ---------------------------------------------------------------------- */
+    .skyline {
+        position: absolute;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 0.5rem;
+        padding-inline: 1rem;
+        pointer-events: none;
+        /* Dissolve into the page instead of sitting on it as a hard band. */
+        mask-image: linear-gradient(to top, #000 0%, #000 42%, transparent 96%);
+    }
+
+    .skyline--inverted {
+        transform: scaleY(-1);
+    }
+
+    .tower {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: none;
+    }
+
+    .tower-spire,
+    .tower-roof,
+    .tower-storey,
+    .tower-base {
+        background: linear-gradient(to top, #0a1c21, #16323b);
+        flex: none;
+    }
+
+    /* The far layer: smaller, cooler, dimmer. */
+    .tower--back {
+        opacity: 0.55;
+        transform: scale(0.82) translateY(6%);
+    }
+
+    .tower--back .tower-spire,
+    .tower--back .tower-roof,
+    .tower--back .tower-storey,
+    .tower--back .tower-base {
+        background: linear-gradient(to top, #08161a, #102630);
+    }
+
+    .tower-spire {
+        width: 0.35rem;
+        height: 1.15rem;
+        margin-bottom: -0.2rem;
+        clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    }
+
+    /* An eave with upturned tips, rather than a plain triangle. */
+    .tower-roof {
+        clip-path: polygon(
+            0 100%,
+            4% 66%,
+            21% 34%,
+            50% 0,
+            79% 34%,
+            96% 66%,
+            100% 100%
+        );
+        margin-bottom: -0.18rem;
+    }
+
+    .tower-storey {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    .tower-base {
+        height: 0.45rem;
+    }
+
+    /* Lit paper lanterns. They take the live accent, warmed toward lamplight,
+       so the town belongs to whichever project owns the page. */
+    .tower-lamp {
+        width: 24%;
+        height: 42%;
+        border-radius: 24%;
+        background-color: color-mix(
+            in oklab,
+            var(--accent) 45%,
+            var(--color-amber)
+        );
+        box-shadow: 0 0 0.8rem 0.1rem
+            color-mix(in oklab, var(--accent) 30%, transparent);
+        opacity: 0.16;
+        animation: lamp-glow 11s ease-in-out infinite;
+        transition: background-color 400ms ease;
+    }
+
+    /* Hangs from the top of the hero — the upside-down world. */
+    .skyline-top {
+        top: 0;
+        opacity: 0.6;
+    }
+
+    /*
+     * Stands along the bottom of everything below the hero. `--rise` runs 0 → 1
+     * as the hero scrolls away, so the town comes up continuously with the
+     * reader rather than switching on at a threshold.
+     */
+    .skyline-bottom {
+        position: fixed;
+        bottom: var(--console-h);
+        top: auto;
+        z-index: 0;
+        opacity: calc(var(--rise, 0) * 0.55);
+        transform: translateY(calc((1 - var(--rise, 0)) * 45%));
+        will-change: transform, opacity;
+    }
+
+    /* ----------------------------------------------------------------------
        Device frames
     ---------------------------------------------------------------------- */
     .frame {
@@ -353,6 +480,16 @@
     }
 }
 
+@keyframes lamp-glow {
+    0%,
+    100% {
+        opacity: 0.14;
+    }
+    50% {
+        opacity: 0.85;
+    }
+}
+
 @keyframes wash-drift {
     from {
         transform: translate3d(-1.5%, 0, 0) scale(1);
@@ -370,7 +507,8 @@
         scroll-behavior: auto;
     }
 
-    .hero-wash {
+    .hero-wash,
+    .tower-lamp {
         animation: none;
     }
 

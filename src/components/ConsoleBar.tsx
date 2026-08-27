@@ -25,11 +25,11 @@ function useActiveSection(enabled: boolean) {
                 const visible = entries
                     .filter((e) => e.isIntersecting)
                     .sort(
-                        (a, b) => b.intersectionRatio - a.intersectionRatio
+                        (a, b) => b.intersectionRatio - a.intersectionRatio,
                     )[0];
                 if (visible) setActive(visible.target.id);
             },
-            { rootMargin: "-35% 0px -45% 0px", threshold: [0, 0.25, 0.5] }
+            { rootMargin: "-35% 0px -45% 0px", threshold: [0, 0.25, 0.5] },
         );
 
         for (const { id } of SECTIONS) {

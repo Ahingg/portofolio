@@ -22,7 +22,7 @@ export function RichText({ text }: { text: string }) {
                     </code>
                 ) : (
                     <Fragment key={i}>{part}</Fragment>
-                )
+                ),
             )}
         </>
     );

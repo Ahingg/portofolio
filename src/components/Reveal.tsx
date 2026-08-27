@@ -42,7 +42,7 @@ export function Reveal({ children, index = 0, className }: Props) {
                     }
                 }
             },
-            { threshold: 0.15, rootMargin: "0px 0px -5% 0px" }
+            { threshold: 0.15, rootMargin: "0px 0px -5% 0px" },
         );
 
         observer.observe(el);

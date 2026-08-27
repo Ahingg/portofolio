@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import { ConsoleBar } from "./components/ConsoleBar";
+import { Skyline } from "./components/Skyline";
+import { useHeroRise } from "./hooks/useHeroRise";
 import Home from "./pages/Home";
 import ProjectPage from "./pages/ProjectPage";
 
@@ -34,10 +36,16 @@ function Layout() {
     const { pathname } = useLocation();
     const reduced = useReducedMotion();
 
+    useHeroRise();
+
     return (
         // Bottom padding clears the fixed console bar.
         <div className="min-h-screen pb-[var(--console-h)]">
-            <main id="main">
+            {/* The town, right way up, rising along the bottom edge as the
+                hero's inverted one scrolls away. */}
+            <Skyline className="skyline-bottom hidden lg:flex" />
+
+            <main id="main" className="relative z-10">
                 <ScrollManager />
                 {/* Keyed on the path so each route fades in on arrival. No exit
                     animation: holding the old page back would fight the scroll
