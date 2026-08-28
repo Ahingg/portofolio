@@ -7,6 +7,16 @@ import { Skyline } from "../components/Skyline";
 import { Reveal } from "../components/Reveal";
 import { Footer } from "../components/Footer";
 
+/**
+ * The hero is the one section composed asymmetrically: the name steps down and
+ * inward one line at a time, the role and statement indent past it, and the
+ * device stack hangs lower than the type block. Everything below keeps the
+ * straight editorial column.
+ *
+ * The console flourishes — prompt glyph, blinking caret, grid sparks, scan
+ * line — live here only, so the terminal register stays an accent rather than
+ * a costume.
+ */
 function Hero() {
     const reduced = useReducedMotion();
     const words = PROFILE.name.split(" ");
@@ -14,20 +24,51 @@ function Hero() {
     return (
         <section
             id="hero"
-            className="relative flex min-h-[min(46rem,calc(100svh-var(--console-h)))] items-center overflow-hidden py-20"
+            className="relative flex min-h-[min(48rem,calc(100svh-var(--console-h)))] items-center overflow-hidden pb-24 py-6"
         >
-            {/* Full-bleed because the section is full width — no cut-off band
-                on wide screens the way a container-width wash left behind. */}
             <div className="hero-grid" aria-hidden="true" />
             <div className="hero-wash" aria-hidden="true" />
 
-            {/* Sakanade: the town overhead, sky beneath it. The profile dips
-                through the middle so the reading column stays clear. */}
+            {/* Cells of the background grid lighting up in sequence, and a
+                slow scan line drifting down — the digital half of the vibe. */}
+            <div aria-hidden="true" className="hidden md:block">
+                <span
+                    className="grid-spark"
+                    style={{ left: "11rem", top: "5.5rem" }}
+                />
+                <span
+                    className="grid-spark"
+                    style={{
+                        left: "27.5rem",
+                        top: "16.5rem",
+                        animationDelay: "2.6s",
+                    }}
+                />
+                <span
+                    className="grid-spark"
+                    style={{
+                        left: "49.5rem",
+                        top: "11rem",
+                        animationDelay: "5.1s",
+                    }}
+                />
+                <span
+                    className="grid-spark"
+                    style={{
+                        left: "16.5rem",
+                        top: "27.5rem",
+                        animationDelay: "7.3s",
+                    }}
+                />
+            </div>
+            <div className="hero-scan" aria-hidden="true" />
+
+            {/* Sakanade: the town overhead, sky beneath it. */}
             <Skyline inverted className="skyline-top hidden lg:flex" />
 
             <div className="container-page relative">
-                <div className="grid items-center gap-16 xl:grid-cols-[minmax(0,1fr)_26rem] xl:gap-20">
-                    <div>
+                <div className="grid gap-y-16 lg:grid-cols-12 lg:items-center lg:gap-x-8">
+                    <div className="lg:col-span-12 xl:col-span-7">
                         <motion.p
                             className="label"
                             initial={reduced ? false : { opacity: 0 }}
@@ -37,18 +78,21 @@ function Hero() {
                             {PROFILE.location}
                         </motion.p>
 
-                        <h1 className="mt-5 font-display text-[clamp(2.75rem,7.5vw,5.25rem)] leading-[0.95] font-semibold">
+                        <h1 className="mt-6 font-display text-[clamp(3rem,8vw,6rem)] leading-[0.92] font-medium tracking-[-0.03em]">
                             {words.map((word, i) => (
                                 <motion.span
                                     key={word}
-                                    className="mr-[0.25em] inline-block"
+                                    /* Each word on its own line, indented one
+                                       step further than the last. */
+                                    className="block"
+                                    style={{ marginLeft: `${i * 1.6}rem` }}
                                     initial={
-                                        reduced ? false : { opacity: 0, y: 18 }
+                                        reduced ? false : { opacity: 0, y: 24 }
                                     }
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{
-                                        duration: 0.55,
-                                        delay: 0.08 + i * 0.07,
+                                        duration: 0.6,
+                                        delay: 0.08 + i * 0.09,
                                         ease: [0.22, 0.61, 0.36, 1],
                                     }}
                                 >
@@ -58,55 +102,60 @@ function Hero() {
                         </h1>
 
                         <motion.p
-                            className="accent-text mt-6 font-display text-xl sm:text-2xl"
+                            className="accent-text mono caret-blink mt-10 text-sm tracking-[0.12em] uppercase sm:ml-[3.2rem]"
                             initial={reduced ? false : { opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.4 }}
+                            transition={{ duration: 0.5, delay: 0.45 }}
                         >
+                            <span className="text-faint" aria-hidden="true">
+                                &gt;{" "}
+                            </span>
                             {PROFILE.role}
                         </motion.p>
 
                         <motion.p
-                            className="prose-measure mt-7 text-[1.0625rem] leading-relaxed text-muted"
+                            className="mt-8 max-w-[46ch] text-[1.0625rem] leading-relaxed text-muted sm:ml-[3.2rem]"
                             initial={reduced ? false : { opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ duration: 0.6, delay: 0.55 }}
+                            transition={{ duration: 0.6, delay: 0.6 }}
                         >
                             {PROFILE.statement}
                         </motion.p>
 
                         <motion.dl
-                            className="mt-12 flex flex-wrap gap-x-12 gap-y-6"
+                            className="mt-14 flex flex-wrap gap-x-14 gap-y-6"
                             initial={reduced ? false : { opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ duration: 0.6, delay: 0.7 }}
+                            transition={{ duration: 0.6, delay: 0.75 }}
                         >
                             <div>
                                 <dt className="label">Currently</dt>
-                                <dd className="mt-1.5 text-sm">
+                                <dd className="mt-2 text-sm">
                                     {PROFILE.academy.title},{" "}
                                     {PROFILE.academy.org}
                                 </dd>
-                                <dd className="mono mt-0.5 text-xs text-faint">
+                                <dd className="mono mt-1 text-xs text-faint">
                                     {PROFILE.academy.period}
                                 </dd>
                             </div>
                             <div>
                                 <dt className="label">Studying</dt>
-                                <dd className="mt-1.5 text-sm">
+                                <dd className="mt-2 text-sm">
                                     {PROFILE.education.title},{" "}
                                     {PROFILE.education.org}
                                 </dd>
-                                <dd className="mono mt-0.5 text-xs text-faint">
+                                <dd className="mono mt-1 text-xs text-faint">
                                     {PROFILE.education.place}
                                 </dd>
                             </div>
                         </motion.dl>
                     </div>
 
-                    {/* Only worth its weight where there is width to spare. */}
+                    {/* Hangs lower than the type block rather than centring
+                        against it, so the two halves do not read as a pair of
+                        matched columns. */}
                     <motion.div
-                        className="hidden xl:block"
+                        className="hidden xl:col-span-5 xl:col-start-8 xl:mt-24 xl:block"
                         initial={reduced ? false : { opacity: 0, scale: 0.97 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{

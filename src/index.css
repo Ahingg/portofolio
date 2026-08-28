@@ -20,10 +20,10 @@
     --color-accent-dim: #2e7e70;
     --color-amber: #efc05f;
 
-    --font-display:
-        "IBM Plex Sans Condensed", "IBM Plex Sans", system-ui, sans-serif;
-    --font-sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
-    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+    --font-display: "Fraunces Variable", "Iowan Old Style", Georgia, serif;
+    --font-sans:
+        "Instrument Sans Variable", system-ui, -apple-system, sans-serif;
+    --font-mono: "Azeret Mono Variable", ui-monospace, "SF Mono", monospace;
 }
 
 /* --------------------------------------------------------------------------
@@ -73,10 +73,16 @@
     h2,
     h3 {
         font-family: var(--font-display);
-        font-weight: 600;
-        letter-spacing: -0.015em;
+        font-weight: 500;
+        letter-spacing: -0.02em;
         text-wrap: balance;
-        line-height: 1.05;
+        line-height: 1.02;
+        /* Fraunces' wonk axis slants the terminals and kinks the joins — the
+           whole reason to use this face rather than another serif. */
+        font-variation-settings:
+            "SOFT" 20,
+            "WONK" 1,
+            "opsz" 96;
     }
 }
 
@@ -267,6 +273,48 @@
             #000 0%,
             transparent 78%
         );
+    }
+
+    /* One cell of the hero grid lighting up, the way a pixel or a paddy-field
+       lantern would. Same 5.5rem module as .hero-grid, so a spark always sits
+       exactly inside a cell. */
+    .grid-spark {
+        position: absolute;
+        width: 5.5rem;
+        height: 5.5rem;
+        background: color-mix(in oklab, var(--accent) 8%, transparent);
+        box-shadow: inset 0 0 0 1px
+            color-mix(in oklab, var(--accent) 18%, transparent);
+        opacity: 0;
+        animation: spark 10s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    /* A thin readout line drifting down the hero, console-style. */
+    .hero-scan {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -2%;
+        height: 1px;
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            color-mix(in oklab, var(--accent) 22%, transparent) 35%,
+            color-mix(in oklab, var(--accent) 38%, transparent) 50%,
+            color-mix(in oklab, var(--accent) 22%, transparent) 65%,
+            transparent 100%
+        );
+        animation: scan 16s linear infinite;
+        pointer-events: none;
+    }
+
+    /* Terminal caret after the role line. */
+    .caret-blink::after {
+        content: "▍";
+        margin-left: 0.2em;
+        color: var(--accent);
+        animation: caret 1.1s steps(2, jump-none) infinite;
     }
 
     /* ----------------------------------------------------------------------
@@ -490,6 +538,34 @@
     }
 }
 
+@keyframes spark {
+    0%,
+    100% {
+        opacity: 0;
+    }
+    7% {
+        opacity: 1;
+    }
+    15% {
+        opacity: 0;
+    }
+}
+
+@keyframes scan {
+    from {
+        top: -2%;
+    }
+    to {
+        top: 102%;
+    }
+}
+
+@keyframes caret {
+    50% {
+        opacity: 0;
+    }
+}
+
 @keyframes wash-drift {
     from {
         transform: translate3d(-1.5%, 0, 0) scale(1);
@@ -508,8 +584,16 @@
     }
 
     .hero-wash,
-    .tower-lamp {
+    .tower-lamp,
+    .grid-spark,
+    .hero-scan,
+    .caret-blink::after {
         animation: none;
+    }
+
+    .grid-spark,
+    .hero-scan {
+        opacity: 0;
     }
 
     *,

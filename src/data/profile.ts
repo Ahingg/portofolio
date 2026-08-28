@@ -5,10 +5,10 @@ export const PROFILE = {
     role: "iOS Developer & Software Engineer",
     location: "Jakarta / Tangerang, Indonesia",
     statement:
-        "I build native Apple-platform apps and the systems behind them — a chemistry engine that derives molecular geometry rather than storing it, a lost-and-found network that needs no hardware, a paint app because the good ones are paid.",
+        "Curious About Everything, i has always encouraged to develop various type of technologies, varying from Competitive Programming, Web, iOS, AR, Database, Game, and more. Love to solve problems both in teamwork and individual project. Open to any opportunities to improve my self.",
     bio: [
         "I'm a Computer Science student at BINUS University Jakarta and a Learner at the Apple Developer Academy @ BINUS in Tangerang, where I work across iOS development, UI/UX design and research.",
-        "Most of my recent work is Swift: SwiftUI, ARKit and RealityKit on iOS and iPadOS, AppKit and Core Graphics on macOS. Before that — and still, when a project needs it — I work full-stack: Go and PostgreSQL on the backend, React and TypeScript on the front, Unity when the thing is a game.",
+        "Most of my recent work is Swift: SwiftUI, ARKit and RealityKit on iOS and iPadOS, AppKit and Core Graphics on macOS. Before that, and still, when a project needs it — I work full-stack: Go and PostgreSQL on the backend, React and TypeScript on the front, Unity when the thing is a game.",
         "What I care about in a codebase is that the layers stay honest: a domain that cannot import a renderer, a view that cannot fetch, a single source of truth for anything a user can see.",
     ],
     academy: {
